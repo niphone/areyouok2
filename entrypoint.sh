@@ -57,7 +57,7 @@ cat <<EOF >/etc/v2ray/config.json
     },
     "inbounds": [
         {
-            "port": 8080, // 服务器监听端口
+            "port": 80, // 服务器监听端口
             "protocol": "vmess",
             "settings": {
                 "clients": [
