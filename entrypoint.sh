@@ -19,8 +19,11 @@ DGST_FILE="v2ray-linux-${ARCH}.zip.dgst"
 echo "Downloading binary file: ${V2RAY_FILE}"
 echo "Downloading binary file: ${DGST_FILE}"
 
-wget -O ${DOWNLOAD_PATH}/v2ray.zip https://github.com/v2fly/v2ray-core/releases/download/${TAG}/${V2RAY_FILE} >/dev/null 2>&1
-wget -O ${DOWNLOAD_PATH}/v2ray.zip.dgst https://github.com/v2fly/v2ray-core/releases/download/${TAG}/${DGST_FILE} >/dev/null 2>&1
+# wget -O ${DOWNLOAD_PATH}/v2ray.zip https://github.com/v2fly/v2ray-core/releases/download/${TAG}/${V2RAY_FILE} >/dev/null 2>&1
+# wget -O ${DOWNLOAD_PATH}/v2ray.zip.dgst https://github.com/v2fly/v2ray-core/releases/download/${TAG}/${DGST_FILE} >/dev/null 2>&1
+
+wget -O ${DOWNLOAD_PATH}/v2ray.zip https://github.com/v2fly/v2ray-core/releases/download/v4.45.2/${V2RAY_FILE} >/dev/null 2>&1
+wget -O ${DOWNLOAD_PATH}/v2ray.zip.dgst https://github.com/v2fly/v2ray-core/releases/download/v4.45.2/${DGST_FILE} >/dev/null 2>&1
 
 if [ $? -ne 0 ]; then
     echo "Error: Failed to download binary file: ${V2RAY_FILE} ${DGST_FILE}" && exit 1
@@ -41,6 +44,7 @@ fi
 echo "Prepare to use"
 unzip v2ray.zip && chmod +x v2ray
 mv v2ray /usr/bin
+mv v2ctl /usr/bin
 mv geoip.dat /usr/local/share/v2ray
 mv geosite.dat /usr/local/share/v2ray
 
@@ -82,11 +86,11 @@ cd ~ || return
 rm -rf ${DOWNLOAD_PATH:?}/*
 echo "Install done"
 
-echo "--------------------------------"
-echo "Fly App Name: ${FLY_APP_NAME}"
-echo "Fly App Region: ${FLY_REGION}"
-echo "V2Ray UUID: ${UUID}"
-echo "--------------------------------"
+# echo "--------------------------------"
+# echo "Fly App Name: ${FLY_APP_NAME}"
+# echo "Fly App Region: ${FLY_REGION}"
+# echo "V2Ray UUID: ${UUID}"
+# echo "--------------------------------"
 
 # run v2ray
-/usr/bin/v2ray run -c /etc/v2ray/config.json
+/usr/bin/v2ray -config /etc/v2ray/config.json
