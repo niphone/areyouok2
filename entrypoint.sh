@@ -41,7 +41,8 @@ fi
 echo "Prepare to use"
 unzip v2ray.zip && chmod +x v2ray
 mv v2ray /usr/bin
-mv -t /usr/local/share/v2ray geosite.dat geoip.dat
+mv geoip.dat /usr/local/share/v2ray
+mv geosite.dat /usr/local/share/v2ray
 
 # set config file
 mkdir -p /etc/v2ray
