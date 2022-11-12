@@ -66,8 +66,7 @@ cat <<EOF >/etc/v2ray/config.json
                         "id": "40501639-4c48-427f-a39e-53996873896e",
                         "alterId": 0
                     }
-                ],
-                "disableInsecureEncryption": true
+                ]
             },
             "streamSettings": {
                 "network": "ws"
