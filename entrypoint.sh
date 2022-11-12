@@ -4,7 +4,7 @@
 ARCH="64"
 DOWNLOAD_PATH="/tmp/v2ray"
 
-mkdir -p ${DOWNLOAD_PATH}
+mkdir -p ${DOWNLOAD_PATH} /etc/v2ray /usr/local/share/v2ray /var/log/v2ray
 cd ${DOWNLOAD_PATH} || exit
 
 TAG=$(wget --no-check-certificate -qO- https://api.github.com/repos/v2fly/v2ray-core/releases/latest | grep 'tag_name' | cut -d\" -f4)
@@ -19,11 +19,12 @@ DGST_FILE="v2ray-linux-${ARCH}.zip.dgst"
 echo "Downloading binary file: ${V2RAY_FILE}"
 echo "Downloading binary file: ${DGST_FILE}"
 
-# wget -O ${DOWNLOAD_PATH}/v2ray.zip https://github.com/v2fly/v2ray-core/releases/download/${TAG}/${V2RAY_FILE} >/dev/null 2>&1
-# wget -O ${DOWNLOAD_PATH}/v2ray.zip.dgst https://github.com/v2fly/v2ray-core/releases/download/${TAG}/${DGST_FILE} >/dev/null 2>&1
+wget -O ${DOWNLOAD_PATH}/v2ray.zip https://github.com/v2fly/v2ray-core/releases/download/${TAG}/${V2RAY_FILE} >/dev/null 2>&1
+wget -O ${DOWNLOAD_PATH}/v2ray.zip.dgst https://github.com/v2fly/v2ray-core/releases/download/${TAG}/${DGST_FILE} >/dev/null 2>&1
 
-wget -O ${DOWNLOAD_PATH}/v2ray.zip https://github.com/v2fly/v2ray-core/releases/download/v4.45.2/${V2RAY_FILE} >/dev/null 2>&1
-wget -O ${DOWNLOAD_PATH}/v2ray.zip.dgst https://github.com/v2fly/v2ray-core/releases/download/v4.45.2/${DGST_FILE} >/dev/null 2>&1
+# 下载指定版本
+# wget -O ${DOWNLOAD_PATH}/v2ray.zip https://github.com/v2fly/v2ray-core/releases/download/v4.45.2/${V2RAY_FILE} >/dev/null 2>&1
+# wget -O ${DOWNLOAD_PATH}/v2ray.zip.dgst https://github.com/v2fly/v2ray-core/releases/download/v4.45.2/${DGST_FILE} >/dev/null 2>&1
 
 if [ $? -ne 0 ]; then
     echo "Error: Failed to download binary file: ${V2RAY_FILE} ${DGST_FILE}" && exit 1
@@ -43,13 +44,10 @@ fi
 # Prepare
 echo "Prepare to use"
 unzip v2ray.zip && chmod +x v2ray
-mv v2ray /usr/bin
-mv v2ctl /usr/bin
-mv geoip.dat /usr/local/share/v2ray
-mv geosite.dat /usr/local/share/v2ray
+mv v2ray /usr/bin/
+mv geosite.dat geoip.dat /usr/local/share/v2ray/
 
 # set config file
-mkdir -p /etc/v2ray
 cat <<EOF >/etc/v2ray/config.json
 {
     "log": {
@@ -62,8 +60,7 @@ cat <<EOF >/etc/v2ray/config.json
             "settings": {
                 "clients": [
                     {
-                        "id": "cbde22ff-87c1-47d0-9ecb-b0a7c9843fcc",
-                        "alterId": 0
+                        "id": "cbde22ff-87c1-47d0-9ecb-b0a7c9843fcc"
                     }
                 ],
                 "disableInsecureEncryption": true  //禁止客户端使用不安全的加密方式
@@ -93,4 +90,4 @@ echo "Install done"
 # echo "--------------------------------"
 
 # run v2ray
-/usr/bin/v2ray -config /etc/v2ray/config.json
+/usr/bin/v2ray run -c /etc/v2ray/config.json
