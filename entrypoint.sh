@@ -66,7 +66,10 @@ cat <<EOF >/etc/v2ray/config.json
                 "disableInsecureEncryption": true  //禁止客户端使用不安全的加密方式
             },
             "streamSettings": {
-              "network": "ws"
+              "network": "ws",
+              "wsSettings": {
+                "path": "/"
+              }
             }
         }
     ],
